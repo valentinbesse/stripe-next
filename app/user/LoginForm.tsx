@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "../../utils/supabaseClient"
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
     const [loading, setLoading] = useState(false);
@@ -9,7 +10,9 @@ export default function LoginForm() {
     const handleSignUp = async () => {
         setLoading(true);
 
-        const randomEmail = `${Math.random().toString(36).substring(7)}@example.com`;
+        const randomEmail = `${Math.random()
+            .toString(36)
+            .substring(7)}@example.com`;
         const randomPassword = "Password69420";
 
         const { data, error } = await supabase.auth.signUp({
@@ -19,8 +22,10 @@ export default function LoginForm() {
 
         if (error) {
             console.error("Error:", error);
+            toast.error("Error creating user, check browser console");
         } else {
             console.log("User created and login in:", data);
+            toast.success("User created and logged in");
         }
 
         setLoading(false);
